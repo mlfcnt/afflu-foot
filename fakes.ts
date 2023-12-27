@@ -1,32 +1,7 @@
-const clubs = [
-  "Stade Brestois 29",
-  "Clermont Foot 63",
-  "Havre AC",
-  "RC Lens",
-  "Lille OSC",
-  "FC Lorient",
-  "Olympique Lyonnais",
-  "Olympique de Marseille",
-  "FC Metz",
-  "AS Monaco FC",
-  "Montpellier Hérault SC",
-  "FC Nantes",
-  "OGC Nice",
-  "Paris Saint-Germain FC",
-  "Stade de Reims",
-  "Stade Rennais FC",
-  "RC Strasbourg Alsace",
-  "Toulouse FC",
-];
+"use client";
 
-export type Club = (typeof clubs)[number];
+import { Journee } from "@/types";
 
-type Journee = {
-  number: number;
-  affluences: {
-    [club in Club]: number;
-  };
-};
 export const fakeJournees: Journee[] = [
   {
     number: 1,
