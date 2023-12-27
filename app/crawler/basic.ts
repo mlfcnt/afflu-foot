@@ -1,6 +1,6 @@
 import rp from "request-promise";
 import { load } from "cheerio";
-import { Journee, Club } from "@/types";
+import { Journee } from "@/types";
 import { clubs } from "@/constants/clubs";
 
 export const crawl = async (): Promise<Journee[]> => {
