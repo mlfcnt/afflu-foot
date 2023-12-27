@@ -87,7 +87,6 @@ const cellRender = (cellData: CellRenderData, journees: Journee[]) => {
   const { column, value } = cellData;
   const clubName = column.dataField.split(".")[1];
   const { highest, lowest } = getHighestAndLowest(journees, clubName);
-  console.log({ highest, lowest, value });
   let backgroundColor = "initial"; // Default background
 
   if (value === highest) {
