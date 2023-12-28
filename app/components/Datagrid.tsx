@@ -107,12 +107,14 @@ export const Datagrid = (props: Props) => {
         allowSorting
         width={"auto"}
         calculateCellValue={(data) => {
-          // calculer la moyenne d'affluence pour chaque journée
-          let total = 0;
-          for (const club of clubs) {
-            total += data.affluences[club.name]?.number || 0;
-          }
-          return Math.floor(total / clubs.length);
+          // calculer la moyenne d'affluence pour chaque journée, en prenant seulement les clubs qui ont joué
+          const clubsThatPlayed = clubs.filter((club) => {
+            return data.affluences[club.name]?.number;
+          });
+          const total = clubsThatPlayed.reduce((a, club) => {
+            return a + data.affluences[club.name]?.number;
+          }, 0);
+          return Math.round(total / clubsThatPlayed.length);
         }}
         cellRender={(e) => {
           if (e.data.number === journeeWithHighestAvg.number) {
