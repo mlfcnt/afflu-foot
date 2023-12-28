@@ -19,6 +19,8 @@ import {
   clubWithHighestTotal as clubWithHighestTotalFn,
   clubWithLowestAverage as clubWithLowestAverageFn,
   clubWithLowestTotal as clubWithLowestTotalFn,
+  journeeWithHighestTotal as journeeWithHighestTotalFn,
+  journeeWithLowestTotal as journeeWithLowestTotalFn,
 } from "./helpers";
 
 type Props = {
@@ -40,6 +42,13 @@ export const Datagrid = (props: Props) => {
 
   const clubWithLowestTotal = useMemo(() => {
     return clubWithLowestTotalFn(clubs, props.journees);
+  }, [props.journees]);
+
+  const journeeWithHighestTotal = useMemo(() => {
+    return journeeWithHighestTotalFn(props.journees);
+  }, [props.journees]);
+  const journeeWithLowestTotal = useMemo(() => {
+    return journeeWithLowestTotalFn(props.journees);
   }, [props.journees]);
 
   return (
@@ -86,6 +95,38 @@ export const Datagrid = (props: Props) => {
             total += data.affluences[club.name]?.number || 0;
           }
           return total;
+        }}
+        cellRender={(e) => {
+          if (e.data.number === journeeWithHighestTotal.number) {
+            return (
+              <div
+                style={{
+                  backgroundColor: "#00FF00",
+                  width: "100%",
+                  height: "100%",
+                }}
+              >
+                {e.value}
+              </div>
+            );
+          } else if (e.data.number === journeeWithLowestTotal.number) {
+            return (
+              <div
+                style={{
+                  backgroundColor: "#FF0000",
+                  width: "100%",
+                  height: "100%",
+                  color: "#FFFFFF",
+                }}
+              >
+                {e.value}
+              </div>
+            );
+          } else {
+            return (
+              <div style={{ width: "100%", height: "100%" }}>{e.value}</div>
+            );
+          }
         }}
       />
       <Summary>

@@ -42,3 +42,25 @@ export const clubWithLowestTotal = (clubs: Club[], journees: Journee[]) => {
   });
   return totals.reduce((a, b) => (a.total < b.total ? a : b)).club;
 };
+
+export const journeeWithHighestTotal = (journees: Journee[]) => {
+  const totals = journees.map((journee) => {
+    const total = Object.values(journee.affluences).reduce(
+      (a, b) => a + b.number,
+      0
+    );
+    return { journee, total };
+  });
+  return totals.reduce((a, b) => (a.total > b.total ? a : b)).journee;
+};
+
+export const journeeWithLowestTotal = (journees: Journee[]) => {
+  const totals = journees.map((journee) => {
+    const total = Object.values(journee.affluences).reduce(
+      (a, b) => a + b.number,
+      0
+    );
+    return { journee, total };
+  });
+  return totals.reduce((a, b) => (a.total < b.total ? a : b)).journee;
+};
