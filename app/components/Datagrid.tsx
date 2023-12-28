@@ -55,7 +55,7 @@ export const Datagrid = (props: Props) => {
         calculateCellValue={(data) => {
           let total = 0;
           for (const club of clubs) {
-            total += data.affluences[club.name];
+            total += data.affluences[club.name]?.number || 0;
           }
           return total;
         }}
