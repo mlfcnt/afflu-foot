@@ -5,7 +5,12 @@ import { DataGrid as Dx } from "devextreme-react";
 import { exportDataGrid } from "devextreme/excel_exporter";
 import { Workbook } from "exceljs";
 import saveAs from "file-saver";
-import { Column, Export } from "devextreme-react/cjs/data-grid";
+import {
+  Column,
+  Export,
+  Summary,
+  TotalItem,
+} from "devextreme-react/cjs/data-grid";
 import { clubs } from "@/constants/clubs";
 import { Journee } from "@/types";
 
@@ -60,6 +65,28 @@ export const Datagrid = (props: Props) => {
           return total;
         }}
       />
+      <Summary>
+        {clubs.map((club) => (
+          <TotalItem
+            key={club.name}
+            column={`affluences.${club.name}.number`}
+            summaryType="sum"
+            customizeText={(e) => {
+              return e.value.toLocaleString();
+            }}
+          />
+        ))}
+        {clubs.map((club) => (
+          <TotalItem
+            key={club.id}
+            column={`affluences.${club.name}.number`}
+            summaryType="avg"
+            customizeText={(e) => {
+              return e.value.toLocaleString();
+            }}
+          />
+        ))}
+      </Summary>
       <Export enabled={true} />
     </Dx>
   );
