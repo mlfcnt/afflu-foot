@@ -54,6 +54,13 @@ export const Datagrid = (props: Props) => {
   return (
     <Dx<Journee>
       dataSource={props.journees}
+      allowColumnReordering
+      allowColumnResizing
+      columnChooser={{ enabled: true, mode: "select" }}
+      filterRow={{ visible: true }}
+      loadPanel={{ enabled: true }}
+      searchPanel={{ visible: true }}
+      showRowLines
       rowAlternationEnabled
       columnWidth={75}
       onExporting={(e) => {
