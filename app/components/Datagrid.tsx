@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useMemo } from "react";
 import { DataGrid as Dx } from "devextreme-react";
 import { exportDataGrid } from "devextreme/excel_exporter";
 import { Workbook } from "exceljs";
@@ -13,12 +13,35 @@ import {
 } from "devextreme-react/cjs/data-grid";
 import { clubs } from "@/constants/clubs";
 import { Journee } from "@/types";
+import "./dx.styles.css";
+import {
+  clubWithHighestAverage as clubWithHighestAverageFn,
+  clubWithHighestTotal as clubWithHighestTotalFn,
+  clubWithLowestAverage as clubWithLowestAverageFn,
+  clubWithLowestTotal as clubWithLowestTotalFn,
+} from "./helpers";
 
 type Props = {
   journees: Journee[];
 };
 
 export const Datagrid = (props: Props) => {
+  const clubWithHighestAverage = useMemo(() => {
+    return clubWithHighestAverageFn(clubs, props.journees);
+  }, [props.journees]);
+
+  const clubWithHighestTotal = useMemo(() => {
+    return clubWithHighestTotalFn(clubs, props.journees);
+  }, [props.journees]);
+
+  const clubWithLowestAverage = useMemo(() => {
+    return clubWithLowestAverageFn(clubs, props.journees);
+  }, [props.journees]);
+
+  const clubWithLowestTotal = useMemo(() => {
+    return clubWithLowestTotalFn(clubs, props.journees);
+  }, [props.journees]);
+
   return (
     <Dx<Journee>
       dataSource={props.journees}
@@ -74,6 +97,13 @@ export const Datagrid = (props: Props) => {
             customizeText={(e) => {
               return e.value.toLocaleString();
             }}
+            cssClass={
+              club.name === clubWithHighestTotal.name
+                ? "highest_sum"
+                : clubWithLowestTotal.name === club.name
+                ? "lowest_sum"
+                : ""
+            }
           />
         ))}
         {clubs.map((club) => (
@@ -84,6 +114,13 @@ export const Datagrid = (props: Props) => {
             customizeText={(e) => {
               return e.value.toLocaleString();
             }}
+            cssClass={
+              club.name === clubWithHighestAverage.name
+                ? "highest_avg"
+                : clubWithLowestAverage.name === club.name
+                ? "lowest_avg"
+                : ""
+            }
           />
         ))}
       </Summary>
