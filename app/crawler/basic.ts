@@ -36,7 +36,24 @@ export const crawl = async (): Promise<Journee[]> => {
               journee = { number: journeeNumber, affluences: {} };
               journees.push(journee);
             }
-            journee.affluences[club.name] = affluence;
+            // si un parent est un h3 avec la class titre-tableau et le texte Domicile alors Home sinon Away
+
+            const isHomeGame =
+              $(element)
+                .parent()
+                .parent()
+                .parent()
+                .parent()
+                .prev()
+                .text()
+                .trim() === "Domicile";
+
+            if (isHomeGame) {
+              journee.affluences[club.name] = {
+                number: affluence,
+                type: "home",
+              };
+            }
           });
       });
     } catch (error) {

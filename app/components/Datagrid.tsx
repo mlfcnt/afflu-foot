@@ -45,7 +45,7 @@ export const Datagrid = (props: Props) => {
         <Column
           key={club.name}
           caption={club.alias}
-          dataField={`affluences.${club.name}`}
+          dataField={`affluences.${club.name}.number`}
           cellRender={(e) => cellRender(e, props.journees)}
         />
       ))}
@@ -77,7 +77,9 @@ const getHighestAndLowest = (
   journees: Journee[],
   clubName: string
 ): { highest: number; lowest: number } => {
-  const values = journees.map((j) => j.affluences[clubName]);
+  const values = journees
+    .map((j) => j.affluences[clubName]?.number)
+    .filter(Boolean);
   const highest = Math.max(...values);
   const lowest = Math.min(...values);
   return { highest, lowest };
