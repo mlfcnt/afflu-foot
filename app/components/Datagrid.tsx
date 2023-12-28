@@ -7,7 +7,6 @@ import { Workbook } from "exceljs";
 import saveAs from "file-saver";
 import { Column, Export } from "devextreme-react/cjs/data-grid";
 import { clubs } from "@/constants/clubs";
-import { fakeJournees } from "@/fakes";
 import { Journee } from "@/types";
 
 type Props = {
@@ -19,6 +18,7 @@ export const Datagrid = (props: Props) => {
     <Dx<Journee>
       dataSource={props.journees}
       rowAlternationEnabled
+      columnWidth={75}
       onExporting={(e) => {
         const workbook = new Workbook();
         const worksheet = workbook.addWorksheet("Main sheet");
@@ -40,7 +40,7 @@ export const Datagrid = (props: Props) => {
       }}
     >
       {" "}
-      <Column caption="Journee" dataField="number" />
+      <Column caption="Journee" dataField="number" fixed />
       {clubs.map((club) => (
         <Column
           key={club.name}
@@ -90,15 +90,25 @@ const cellRender = (cellData: CellRenderData, journees: Journee[]) => {
   const clubName = column.dataField.split(".")[1];
   const { highest, lowest } = getHighestAndLowest(journees, clubName);
   let backgroundColor = "initial"; // Default background
+  let color = "initial"; // Default background
 
   if (value === highest) {
-    backgroundColor = "#00FF00"; // Green for the highest value
+    backgroundColor = "#00FF00";
   } else if (value === lowest) {
-    backgroundColor = "#FF0000"; // Red for the lowest value
+    backgroundColor = "#FF0000";
+    color = "#FFFFFF";
   }
 
   return (
-    <div style={{ backgroundColor, width: "100%", height: "100%" }}>
+    <div
+      style={{
+        backgroundColor,
+        width: "100%",
+        height: "100%",
+        color,
+        padding: 0,
+      }}
+    >
       {value}
     </div>
   );

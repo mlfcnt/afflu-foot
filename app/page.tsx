@@ -1,4 +1,4 @@
-import "devextreme/dist/css/dx.light.css";
+import "devextreme/dist/css/dx.light.compact.css";
 import { Datagrid } from "./components/Datagrid";
 import { crawl } from "./crawler/basic";
 
