@@ -51,6 +51,7 @@ export const journeeWithHighestTotal = (journees: Journee[]) => {
     );
     return { journee, total };
   });
+  console.log(1, totals.reduce((a, b) => (a.total > b.total ? a : b)).journee);
   return totals.reduce((a, b) => (a.total > b.total ? a : b)).journee;
 };
 
@@ -63,4 +64,25 @@ export const journeeWithLowestTotal = (journees: Journee[]) => {
     return { journee, total };
   });
   return totals.reduce((a, b) => (a.total < b.total ? a : b)).journee;
+};
+export const journeeWithHighestAvg = (journees: Journee[]) => {
+  const averages = journees.map((journee) => {
+    const total = Object.values(journee.affluences).reduce(
+      (a, b) => a + b.number,
+      0
+    );
+    return { journee, total };
+  });
+  return averages.reduce((a, b) => (a.total > b.total ? a : b)).journee;
+};
+
+export const journeeWithLowestAvg = (journees: Journee[]) => {
+  const averages = journees.map((journee) => {
+    const total = Object.values(journee.affluences).reduce(
+      (a, b) => a + b.number,
+      0
+    );
+    return { journee, total };
+  });
+  return averages.reduce((a, b) => (a.total < b.total ? a : b)).journee;
 };

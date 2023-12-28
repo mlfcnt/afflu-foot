@@ -21,6 +21,8 @@ import {
   clubWithLowestTotal as clubWithLowestTotalFn,
   journeeWithHighestTotal as journeeWithHighestTotalFn,
   journeeWithLowestTotal as journeeWithLowestTotalFn,
+  journeeWithHighestAvg as journeeWithHighestAvgFn,
+  journeeWithLowestAvg as journeeWithLowestAvgFn,
 } from "./helpers";
 
 type Props = {
@@ -49,6 +51,13 @@ export const Datagrid = (props: Props) => {
   }, [props.journees]);
   const journeeWithLowestTotal = useMemo(() => {
     return journeeWithLowestTotalFn(props.journees);
+  }, [props.journees]);
+  const journeeWithHighestAvg = useMemo(() => {
+    return journeeWithHighestAvgFn(props.journees);
+  }, [props.journees]);
+
+  const journeeWithLowestAvg = useMemo(() => {
+    return journeeWithLowestAvgFn(props.journees);
   }, [props.journees]);
 
   return (
@@ -94,7 +103,52 @@ export const Datagrid = (props: Props) => {
         />
       ))}
       <Column
-        caption="Total"
+        caption="AVG"
+        allowSorting
+        width={"auto"}
+        calculateCellValue={(data) => {
+          // calculer la moyenne d'affluence pour chaque journée
+          let total = 0;
+          for (const club of clubs) {
+            total += data.affluences[club.name]?.number || 0;
+          }
+          return Math.floor(total / clubs.length);
+        }}
+        cellRender={(e) => {
+          if (e.data.number === journeeWithHighestAvg.number) {
+            return (
+              <div
+                style={{
+                  backgroundColor: "#00FF00",
+                  width: "100%",
+                  height: "100%",
+                }}
+              >
+                {e.value}
+              </div>
+            );
+          } else if (e.data.number === journeeWithLowestAvg.number) {
+            return (
+              <div
+                style={{
+                  backgroundColor: "#FF0000",
+                  width: "100%",
+                  height: "100%",
+                  color: "#FFFFFF",
+                }}
+              >
+                {e.value}
+              </div>
+            );
+          } else {
+            return (
+              <div style={{ width: "100%", height: "100%" }}>{e.value}</div>
+            );
+          }
+        }}
+      />
+      <Column
+        caption="TOT"
         allowSorting
         calculateCellValue={(data) => {
           let total = 0;
