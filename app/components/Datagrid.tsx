@@ -77,7 +77,7 @@ export const Datagrid = (props: Props) => {
       }}
     >
       {" "}
-      <Column caption="Journee" dataField="number" fixed />
+      <Column caption="J" dataField="number" fixed width={"auto"} />
       {clubs.map((club) => (
         <Column
           key={club.name}
