@@ -59,7 +59,6 @@ export const Datagrid = (props: Props) => {
   const journeeWithLowestAvg = useMemo(() => {
     return journeeWithLowestAvgFn(props.journees);
   }, [props.journees]);
-
   return (
     <Dx<Journee>
       dataSource={props.journees}
@@ -195,8 +194,26 @@ export const Datagrid = (props: Props) => {
       <Summary>
         {clubs.map((club) => (
           <TotalItem
+            key={club.id}
+            column={`affluences.${club.name}.number`}
+            summaryType="avg"
+            customizeText={(e) => {
+              return e.value.toLocaleString().split(".")[0];
+            }}
+            cssClass={
+              club.name === clubWithHighestAverage.name
+                ? "highest_avg"
+                : clubWithLowestAverage.name === club.name
+                ? "lowest_avg"
+                : ""
+            }
+          />
+        ))}
+        {clubs.map((club) => (
+          <TotalItem
             key={club.name}
             column={`affluences.${club.name}.number`}
+            // name="sum"
             summaryType="sum"
             customizeText={(e) => {
               return e.value.toLocaleString();
@@ -206,23 +223,6 @@ export const Datagrid = (props: Props) => {
                 ? "highest_sum"
                 : clubWithLowestTotal.name === club.name
                 ? "lowest_sum"
-                : ""
-            }
-          />
-        ))}
-        {clubs.map((club) => (
-          <TotalItem
-            key={club.id}
-            column={`affluences.${club.name}.number`}
-            summaryType="avg"
-            customizeText={(e) => {
-              return e.value.toLocaleString();
-            }}
-            cssClass={
-              club.name === clubWithHighestAverage.name
-                ? "highest_avg"
-                : clubWithLowestAverage.name === club.name
-                ? "lowest_avg"
                 : ""
             }
           />
